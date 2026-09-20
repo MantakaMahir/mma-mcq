@@ -16,6 +16,12 @@ const topics = [
   [206, 'LCD Interface'],
   [218, '7-Segment & LEDs'],
   [226, 'Dot Matrix'],
+  [246, 'Trainer Workflow'],
+  [266, 'Machine Code & Formatting'],
+  [301, 'LCD Program Tracing'],
+  [316, 'Dot-Matrix Tracing'],
+  [331, '8086 MCQ Patterns'],
+  [366, 'Assembly Code Traps'],
 ];
 
 const topicFor = number => topics.find(([last]) => number <= last)[1];
@@ -87,17 +93,17 @@ async function loadMasterBank() {
   try {
     const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs');
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
-    const pdf = await pdfjsLib.getDocument('MMA_Lab_Quiz_Master_MCQs.pdf').promise;
+    const pdf = await pdfjsLib.getDocument('MMA_Lab_Quiz_Updated_Master_MCQs_366.pdf').promise;
     const pages = await Promise.all(Array.from({ length: pdf.numPages }, async (_, index) => {
       const page = await pdf.getPage(index + 1);
       const content = await page.getTextContent();
       return content.items.map(item => item.str).join(' ');
     }));
-    const source = pages.slice(2, 40).join(' ').replace(/CSE 306 - MMA Lab Quiz Master Note|MIST \| 226 unique syllabus-filtered MCQs/g, ' ');
+    const source = pages.slice(3, 69).join(' ').replace(/CSE 306 - MMA Lab Quiz Master Note|MIST \| 366 unique syllabus-filtered MCQs/g, ' ');
     const parsed = [];
     let cursor = 0;
-    for (let number = 1; number <= 226; number += 1) {
-      const next = number < 226 ? `(?=\\s+${number + 1}\\.\\s+)` : '$';
+    for (let number = 1; number <= 366; number += 1) {
+      const next = number < 366 ? `(?=\\s+${number + 1}\\.\\s+)` : '$';
       const pattern = new RegExp(`(?:^|\\s)${number}\\.\\s+([\\s\\S]*?)\\s+A\\.\\s+([\\s\\S]*?)\\s+B\\.\\s+([\\s\\S]*?)\\s+C\\.\\s+([\\s\\S]*?)\\s+D\\.\\s+([\\s\\S]*?)\\s+Answer:\\s*([A-D])\\s*\\|\\s*([\\s\\S]*?)${next}`);
       const match = pattern.exec(source.slice(cursor));
       if (!match) throw new Error(`Question parsing failed at ${number}`);
