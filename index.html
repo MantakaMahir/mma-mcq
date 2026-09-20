@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CSE-306 Microprocessor and Microcontroller Sessional topic-wise quiz practice." />
+    <title>MMA MCQ Practice | CSE-306</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">CSE-306 / LAB QUIZ REVISION</p>
+        <h1>MMA Lab<br /><em>MCQ Practice</em></h1>
+        <p class="intro">Choose an answer to instantly see whether it is right, the correct answer, and why.</p>
+        <div class="stats" aria-label="Quiz progress">
+          <span><strong id="answered">0</strong> answered</span>
+          <span><strong id="correct">0</strong> correct</span>
+          <span><strong id="total">0</strong> questions</span>
+        </div>
+      </header>
+
+      <nav class="filters" aria-label="Question topics" id="filters"></nav>
+      <section id="questions" class="questions" aria-live="polite"></section>
+    </main>
+    <template id="question-template">
+      <article class="question-card">
+        <div class="question-meta"><span class="category"></span><span class="number"></span></div>
+        <h2 class="question-text"></h2>
+        <div class="options" role="group"></div>
+        <div class="feedback" hidden></div>
+      </article>
+    </template>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
