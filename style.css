@@ -10,8 +10,11 @@ h1 em { color:var(--blue); font-weight:400; }
 .stats { display:flex; flex-wrap:wrap; gap:10px; }
 .stats span { padding:8px 12px; border:1px solid var(--line); background:#ffffff96; border-radius:999px; font-size:.9rem; }
 .filters { display:flex; flex-wrap:wrap; gap:8px; padding:20px 0 28px; border-top:1px solid var(--line); }
-.filter { border:1px solid var(--line); background:transparent; color:var(--ink); padding:9px 13px; border-radius:999px; cursor:pointer; font:inherit; font-size:.9rem; }
+.filter { display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); background:transparent; color:var(--ink); padding:9px 13px; border-radius:999px; cursor:pointer; font:inherit; font-size:.9rem; }
 .filter:hover,.filter.active { color:white; background:var(--navy); border-color:var(--navy); }
+.filter-progress { font-size:.75rem; opacity:.72; }
+.reset-progress { border:1px solid #d8aaa6; background:#fff8f6; color:var(--red); padding:9px 13px; border-radius:999px; cursor:pointer; font:inherit; font-size:.9rem; }
+.reset-progress:hover { color:white; background:var(--red); border-color:var(--red); }
 .questions { display:grid; gap:18px; }
 .question-card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:24px; box-shadow:0 4px 0 #102a4308; }
 .question-meta { display:flex; justify-content:space-between; gap:16px; color:var(--blue); font-size:.78rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }

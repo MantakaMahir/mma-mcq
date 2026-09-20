@@ -42,11 +42,24 @@ function updateStats() {
 
 function render() {
   const filters = document.querySelector('#filters');
-  filters.innerHTML = categories.map(category => `<button class="filter ${category === selectedCategory ? 'active' : ''}" data-category="${category}">${category}</button>`).join('');
-  filters.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+  filters.innerHTML = categories.map(category => {
+    const indexes = questions.map((question, index) => ({ question, index })).filter(({ question }) => category === 'All' || question[0] === category);
+    const completed = indexes.filter(({ index }) => answered.has(index)).length;
+    return `<button class="filter ${category === selectedCategory ? 'active' : ''}" data-category="${category}">${category}<span class="filter-progress">${completed}/${indexes.length}</span></button>`;
+  }).join('') + (selectedCategory === 'All' ? '' : `<button class="reset-progress" type="button">Reset ${escapeHtml(selectedCategory)}</button>`);
+  filters.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => {
     selectedCategory = button.dataset.category;
     render();
   }));
+  filters.querySelector('.reset-progress')?.addEventListener('click', () => {
+    if (!confirm(`Reset saved progress for ${selectedCategory}?`)) return;
+    questions.forEach((question, index) => {
+      if (question[0] === selectedCategory) answered.delete(index);
+    });
+    try { sessionStorage.setItem(progressKey, JSON.stringify([...answered])); } catch {}
+    updateStats();
+    render();
+  });
 
   const visible = questions.map((question, index) => ({ question, index })).filter(({ question }) => selectedCategory === 'All' || question[0] === selectedCategory);
   const container = document.querySelector('#questions');
