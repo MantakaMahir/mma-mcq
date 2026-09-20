@@ -2,7 +2,15 @@ let questions = [];
 let categories = ['All'];
 let selectedCategory = 'All';
 const answered = new Map();
+const progressKey = 'mma-mcq-progress';
 const escapeHtml = value => value.replace(/[&<>"']/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[character]);
+
+try {
+  const saved = JSON.parse(sessionStorage.getItem(progressKey) || '[]');
+  if (Array.isArray(saved)) saved.forEach(([index, answer]) => {
+    if (Number.isInteger(index) && index >= 0 && Number.isInteger(answer?.choice) && answer.choice >= 0 && answer.choice < 4 && typeof answer.correct === 'boolean') answered.set(index, answer);
+  });
+} catch {}
 
 const topics = [
   [25, '8086 Architecture'],
@@ -85,6 +93,7 @@ function showFeedback(element, correct, options, explanation, choice) {
 function answer(index, choice) {
   if (answered.has(index)) return;
   answered.set(index, { choice, correct: choice === questions[index][3] });
+  try { sessionStorage.setItem(progressKey, JSON.stringify([...answered])); } catch {}
   updateStats();
   render();
 }
